@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posting JSON Data To The Server Using jQuery</title>
+    <script type="text/javascript" src="./jquery.js"></script>
+</head>
+<body>
+ 
+    <div id="response">
+        <!-- To be populated dynamically. -->
+    </div>
+ 
+    <script type="text/javascript">
+    	function reverseString(string){
+    		var reversedString = "";
+    		for (i = string.length - 1; i >= 0;  i--){
+    			reversedString = reversedString + string[i];
+    		}
+    		return reversedString;
+    	}
+
+    	function getDoesNotContainPrefixArray(prefix, stringArray){
+    		resultArray = [];
+    		for (index in stringArray){
+    			if (stringArray[index].length < prefix.length){
+    				resultArray.push([stringArray[index]]);
+
+    			}
+    			else{
+    				if (!(stringContainsPrefix(stringArray[index], prefix))){
+    					resultArray.push(stringArray[index]);
+    				}
+    			}
+    		}
+    		return resultArray;
+    	}
+
+    	function stringContainsPrefix(string, prefix){
+    		for (i = 0; i < prefix.length; i++){
+    			if (prefix[i] !== string[i]){
+    				return false;
+    			}
+    		}
+    		return true;
+    	}
+
+    	function dateMath(date, interval){
+    		date = new Date(date);
+    		newDate = new Date(date.valueOf() + interval*1000).toISOString();
+    		return newDate;
+    	}
+
+
+    	var url = 'http://challenge.code2040.org/api/register';
+    	var urlReverse = "http://challenge.code2040.org/api/getstring";
+    	var urlValidate = "http://challenge.code2040.org/api/validatestring";
+    	var urlHaystack = "http://challenge.code2040.org/api/haystack";
+    	var urlStatus = "http://challenge.code2040.org/api/status";
+    	var urlPrefix = "http://challenge.code2040.org/api/prefix";
+    	var urlTime = "http://challenge.code2040.org/api/time";
+		var info = {"powellj@mit.edu": "https://github.com/powelljordan/Code2040"};
+		var keyToken = {token: "KEUjKRaWvT"}
+        var ajaxResponse = $.ajax({
+            type: "POST",
+            url: urlTime,
+            contentType: "application/json",
+            data: JSON.stringify(keyToken),
+            dataType: "json",
+            success: function (response) {
+            if(response.status === "success") {
+                // do something with response.message or whatever other data on success
+            } else if(response.status === "error") {
+                // do something with response.message or whatever other data on error
+            }
+        }
+        })
+
+
+        // When the response comes back, output the HTML.
+        ajaxResponse.then(
+            function( apiResponse ){
+            	console.log(apiResponse.result);
+            	//return reversedString 
+            	// reversed = reverseString(apiResponse.result);
+            	// console.log({token: reversed});
+            	// postAndPrint(urlValidate, {token: "KEUjKRaWvT", string: reversed});
+
+            	//find needle in haystack
+            	// for (i = 0; i < apiResponse.result.haystack.length; i++){
+            	// 	if (apiResponse.result.needle === apiResponse.result.haystack[i]){
+            	// 		postAndPrint("http://challenge.code2040.org/api/validateneedle", {token: "KEUjKRaWvT", needle: i})
+            	// 	}
+            	// };
+
+            	//prefixes
+            	// doesNotContainPrefixArray = getDoesNotContainPrefixArray(apiResponse.result.prefix, apiResponse.result.array);
+            	// postAndPrint("http://challenge.code2040.org/api/validateprefix", {token: "KEUjKRaWvT", array: doesNotContainPrefixArray})
+
+            	//Dates
+            	dateMathResult = dateMath(apiResponse.result.datestamp, apiResponse.result.interval);
+            	console.log(dateMathResult);
+            	postAndPrint("http://challenge.code2040.org/api/validatetime", {token: "KEUjKRaWvT", datestamp: dateMathResult});
+
+            	
+
+
+            }
+        );
+        function postAndPrint(url, object){
+	            var ajaxResponse = $.ajax({
+	            type: "POST",
+	            url: url,
+	            contentType: "application/json",
+	            data: JSON.stringify(object),
+	            dataType: "json",
+	            success: function (response) {
+		            if(response.status === "success") {
+		                // do something with response.message or whatever other data on success
+		            } else if(response.status === "error") {
+		                // do something with response.message or whatever other data on error
+		            }
+	        	}
+	        })
+
+	        ajaxResponse.then(
+            function( apiResponse ){
+            	console.log(apiResponse);
+            }
+        );
+        }
+
+
+
+
+    </script>
+ 
+</body>
+</html>
