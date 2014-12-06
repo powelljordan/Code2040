@@ -9,7 +9,7 @@
 public String reversedString(String string){
 	String reversedString = "";
 	for (char letter : string){
-		reversedString = reversedString + letter;
+		reversedString = letter + reversedString;
 	}
 	return reversedString
 }
