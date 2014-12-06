@@ -63,6 +63,8 @@
         var ajaxResponse = $.ajax({
             type: "POST",
             url: urlTime,
+            //Change url as necessary. If I have time I'll make this whole thing a function
+            //but I figured I'd get a working version first.
             contentType: "application/json",
             data: JSON.stringify(keyToken),
             dataType: "json",
