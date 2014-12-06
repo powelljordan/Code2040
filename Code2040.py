@@ -1,4 +1,4 @@
-import urllib2,json, datetime
+import urllib2,json, datetime, requests
 
 ##Code 2040 Challenge
 
@@ -25,9 +25,17 @@ def post(url, postdata):
 ##Uncomment code below to get initial token
 ##print post(url, postdata)
 
+
+
+#Alternative way to post that takes advantage of this Requests library. I didn't know I could do it this way.
+def postUsingRequests(url, postdata):
+    return requests.post(url, json = postdata).json()
+##Uncomment code below to get initial token using cleaner post method.
+##print postUsingRequests(url, postdata)
+
 '''Problem 2'''
 
-# n is the number of needles in the haystack	
+# n is the number of needles in the haystack    
 # O(n) time complexity is optimal for an unordered array of needles
 # O(n) space complexity is also optimal as the algorithm is in place
 
@@ -74,11 +82,11 @@ urlPrefix = 'http://challenge.code2040.org/api/prefix'
 urlValidatePrefix = 'http://challenge.code2040.org/api/validateprefix'
 
 def stringsThatContainPrefix(prefix, stringArray):
-	matchedStringsArray = []
-	for string in stringArray:
-		if len(string) >= len(prefix) and string[0:len(prefix)] != prefix:
-			matchedStringsArray.append(string)
-	return matchedStringsArray
+    matchedStringsArray = []
+    for string in stringArray:
+        if len(string) >= len(prefix) and string[0:len(prefix)] != prefix:
+            matchedStringsArray.append(string)
+    return matchedStringsArray
 
 
 prefixDict = post(urlPrefix, keyToken)
@@ -115,6 +123,6 @@ def runChallenges():
     print post(urlValidateTime, {'token':'KEUjKRaWvT', 'datestamp': resultDate})
 
 ##Uncomment line below to run all 4 challenges
-runChallenges()
+##runChallenges()
 
     
